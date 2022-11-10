@@ -1,4 +1,4 @@
-const { Pool } = require('pg');
+const { Client } = require('pg');
 connectionstr = process.env.DATABASE_URL
 /*const client = new Client({
   user: 'program',
@@ -9,25 +9,25 @@ connectionstr = process.env.DATABASE_URL
   port: 5432,
 })*/
 
-/*const client = new Client({
+const client = new Client({
   user: 'mkhyaqnvpndrpe',
   host: 'ec2-52-211-232-23.eu-west-1.compute.amazonaws.com',
   //host: 'postgres',
   database: 'd1mdo3ep17armp',
   password: '2a3b24a46ec91a053cc6570f681fa4db8c07ee4763afadf0c7ee278e92f36a2b',
   port: 5432,
-})*/
+})
 const conString =
   process.env.DATABASE_URL ||
   "postgres://mkhyaqnvpndrpe:2a3b24a46ec91a053cc6570f681fa4db8c07ee4763afadf0c7ee278e92f36a2b@ec2-52-211-232-23.eu-west-1.compute.amazonaws.com:5432/d1mdo3ep17armp";
 
-const client = new Pool({
+/*const client = new Pool({
   connectionString: conString,
   ssl: {
     rejectUnauthorized: false,
   },
-});
-client.connect();
+});*/
+//client.connect();
 
 
 client.connect(function (err){
@@ -37,11 +37,12 @@ client.connect(function (err){
         console.log("Connected!");
 });
 
-const getPersons = async (request, response) => {
+const getPersons = async (req, res) => {
     //response.status(200).send('get persons1')
-    const querydb = "SELECT * FROM Persons;";
-    client.query(querydb, (err, result) => {
-      response.status(200).json(result.rows);
+    const dbQuery = "SELECT * FROM Persons;";
+    client.query(dbQuery, (err, dbRes) => {
+      console.log(dbRes)
+      res.status(200).json(dbRes.rows);
     });
     //client.end();
 }
@@ -77,7 +78,7 @@ const createPerson = async (request, response) => {
   loadData(request, function (body) {
     const { name, age, address, work } = JSON.parse(body);
     console.log(name, age, address, work)
-    const querydb = `INSERT INTO persons(id, name, age, address, work) VALUES (DEFAULT, '${name}', ${age}, '${address}', '${work}') RETURNING id;`;
+    const querydb = `INSERT INTO Persons(id, name, age, address, work) VALUES (DEFAULT, '${name}', ${age}, '${address}', '${work}') RETURNING id;`;
     client.query(querydb, (err, res) => {
       if (err) response.status(400).json(null);
       else
