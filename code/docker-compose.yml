@@ -1,0 +1,37 @@
+version: "3"
+services:
+  # конфиг для приложения на node
+  # когда docker compose запускает этот контейнер, он автоматически
+  # использует докерфайл в директории
+  node:
+    build: .
+    container_name: node
+    restart: on-failure
+    depends_on:
+      # проверяем, что бд уже загружена
+      - postgres
+    ports:
+      - "8080:8080"
+    volumes:
+      # маппирует текущую директорию проекта '.'
+      # в нашу рабочую директорию в контейнере
+      - ./:/api/v1/
+  
+  # конфиг для контейнера бд
+  # имя 'postgres' важно, т.к. в приложении когда мы ссылаемся
+  # на 'host: postgres' это значение маппируется на сеть на адрес этого контейнера
+  postgres:
+    #build: code/db/
+    image: postgres
+    container_name: postgres
+    restart: on-failure
+    #network_mode: host
+    environment:
+      POSTGRES_USER: program
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: persons
+    ports:
+      # стандартный для постгреса
+      - "5432:5432"
+    volumes:
+      - ./10-create-user-and-db.sql:/docker-entrypoint-initdb.d/10-create-user-and-db.sql
