@@ -67,12 +67,14 @@ const createPerson = async (request, response) => {
     const { name, address, work, age } = request.body
     //response.status(200).send('create person')
  
-    const results = await client.query('INSERT INTO Persons (name, address, work, age) VALUES ($1, $2, $3, $4) RETURNING *',
-                     [name, address, work, age], (error, results) => {
-      //response.status(201)
-      console.log(error)
-      //console.log('/persons/' + results.rows[0].id)
-      response.status(201).header('Location', '/api/v1/persons/' + results.rows[0].id).json("")
+    const query = `INSERT INTO persons(id, name, age, address, work) VALUES (DEFAULT, '${name}', ${age}, '${address}', '${work}') RETURNING id;`;
+    client.query(query, (err, res) => {
+      if (err) res.status(400).json(null);
+      else
+        res
+          .status(201)
+          .header("Location", `/api/v1/persons/${res.rows[0].id}`)
+          .json("");
     });
     //client.end();
 }
