@@ -27,22 +27,20 @@ jobs:
           heroku_app_name: "sivashov-person-service"
           email: "ya.siv11@yandex.ru"
           dockerfile_directory: code/
-          usedocker: true
       
       - name: Timeout
         run: sleep 20s
         shell: bash
 
-      
-      
-      - name: Run Tests
-        id: run-newman
-        uses: anthonyvscode/newman-action@v1
+      - name: Run API Tests
+        uses: matt-ball/newman-action@master
         with:
           collection: postman/[inst] Lab1.postman_collection.json
           environment: postman/[inst][heroku] Lab1.postman_environment.json
-          delayRequest: 50
-          reporters: cli
+          delayRequest: 100
+          reporters: '[ "cli" ]'
+      
+
 
 
       - name: Autograding
