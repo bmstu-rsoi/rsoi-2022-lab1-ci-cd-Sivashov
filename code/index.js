@@ -10,7 +10,7 @@ var log             = require('./libs/log')(module);
 var url             = require('url')
 
 const db            = require('./db/queries')
-const port = 8080
+app.set('port', (process.env.PORT || 8080));
 
 app.use(logger('combined')); // выводим все запросы со статусами в консоль
 app.use(bodyParser.json()); // стандартный модуль, для парсинга JSON в запросах
@@ -57,6 +57,6 @@ app.patch('/api/v1/persons/:personId', db.updatePerson)
 
 app.delete('/api/v1/persons/:personId', db.deletePerson)
 
-app.listen(process.env.PORT || port, function(){
-  console.log(`Server listening on port ${port}`);
+app.listen(app.get('port'), function(){
+  console.log(`Server listening on port `, app.get('port'));
 });

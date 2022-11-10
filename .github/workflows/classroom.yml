@@ -37,7 +37,7 @@ jobs:
         with:
           collection: postman/[inst] Lab1.postman_collection.json
           environment: postman/[inst][heroku] Lab1.postman_environment.json
-          delayRequest: 100
+          delayRequest: 40
           reporters: '[ "cli" ]'
       
 
