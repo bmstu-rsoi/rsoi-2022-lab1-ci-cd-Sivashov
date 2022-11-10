@@ -30,7 +30,7 @@ jobs:
           usedocker: true
       
       - name: Timeout
-        run: sleep 30s
+        run: sleep 20s
         shell: bash
 
       - name: Run API Tests

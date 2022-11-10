@@ -48,6 +48,7 @@ const createPerson = async (request, response) => {
     const results = await client.query('INSERT INTO Persons (name, address, work, age) VALUES ($1, $2, $3, $4) RETURNING *',
                      [name, address, work, age], (error, results) => {
       //response.status(201)
+      console.log(error)
       //console.log('/persons/' + results.rows[0].id)
       response.status(201).header('Location', '/api/v1/persons/' + results.rows[0].id).json("")
     });
