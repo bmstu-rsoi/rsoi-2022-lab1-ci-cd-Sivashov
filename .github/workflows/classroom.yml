@@ -25,7 +25,6 @@ jobs:
           heroku_app_name: "rsoilabapp"
           heroku_email: "ya.siv11@yandex.ru"
           usedocker: true
-          stack: "container"
       
       - name: Timeout
         run: sleep 30s
