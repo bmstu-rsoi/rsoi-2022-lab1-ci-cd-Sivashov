@@ -28,7 +28,7 @@ jobs:
           email: "ya.siv11@yandex.ru"
           dockerfile_directory: code/
       
-      - name: Timeout
+      - name: Run API Tests
         run: sleep 30s
         shell: bash
 
