@@ -57,6 +57,6 @@ app.patch('/api/v1/persons/:personId', db.updatePerson)
 
 app.delete('/api/v1/persons/:personId', db.deletePerson)
 
-app.listen(port, function(){
+app.listen(process.env.PORT || port, function(){
   console.log(`Server listening on port ${port}`);
 });
