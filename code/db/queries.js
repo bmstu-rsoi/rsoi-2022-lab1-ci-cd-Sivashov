@@ -39,7 +39,7 @@ client.connect(function (err){
 
 const getPersons = async (request, response) => {
     //response.status(200).send('get persons1')
-    const querydb = "SELECT * FROM persons;";
+    const querydb = "SELECT * FROM Persons;";
     client.query(querydb, (err, result) => {
       response.status(200).json(result.rows);
     });
