@@ -18,9 +18,6 @@ client.connect(function (err){
 const getPersons = async (request, response) => {
     //response.status(200).send('get persons1')
     const results = await client.query('SELECT * FROM Persons ORDER BY id ASC', (error, results) => {
-      if (error) {
-        throw error
-      }
       response.status(200).json(results.rows)
     })
     //client.end();
@@ -28,15 +25,12 @@ const getPersons = async (request, response) => {
 
 const getPersonById = async (request, response) => {
     const id = parseInt(request.params.personId)
-    if (!id){
-      response.status(400).send('no id.')
-    }
+    //if (!id){
+    //  response.status(400).send('no id.')
+    //}
     //response.status(200).send('get person by id')
 
     const results = await client.query('SELECT * FROM Persons WHERE id = $1', [id], (error, results) => {
-      if (error) {
-        throw error
-      }
       if (results.rowCount === 0){
         response.status(404).json(null)
       }
@@ -53,13 +47,10 @@ const createPerson = async (request, response) => {
  
     const results = await client.query('INSERT INTO Persons (name, address, work, age) VALUES ($1, $2, $3, $4) RETURNING *',
                      [name, address, work, age], (error, results) => {
-      if (error) {
-        throw error
-      }
       //response.status(201)
       //console.log('/persons/' + results.rows[0].id)
-      response.status(201).setHeader('Location', '/persons/' + results.rows[0].id).send()
-    })
+      response.status(201).header('Location', '/api/v1/persons/' + results.rows[0].id).json("")
+    });
     //client.end();
 }
 
@@ -91,9 +82,6 @@ const deletePerson = async (request, response) => {
 
 
     const results = await client.query('DELETE FROM Persons WHERE id = $1', [id], (error, results) => {
-      if (error) {
-        throw error
-      }
       response.status(204).json(null)
     })
     //client.end();
