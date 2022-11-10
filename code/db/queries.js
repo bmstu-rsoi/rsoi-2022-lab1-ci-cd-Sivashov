@@ -39,7 +39,7 @@ client.connect(function (err){
 
 const getPersons = async (request, response) => {
     //response.status(200).send('get persons1')
-    const results = await client.query('SELECT * FROM Persons ORDER BY id ASC', (error, results) => {
+    const res = await client.query('SELECT * FROM Persons ORDER BY id ASC', (error, results) => {
       response.status(200).json(results.rows)
     })
     //client.end();
