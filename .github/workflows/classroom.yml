@@ -33,12 +33,13 @@ jobs:
         shell: bash
 
       - name: Run API Tests
-        uses: matt-ball/newman-action@master
+        id: run-newman
+        uses: anthonyvscode/newman-action@v1
         with:
           collection: postman/[inst] Lab1.postman_collection.json
           environment: postman/[inst][heroku] Lab1.postman_environment.json
-          delayRequest: 100
-          reporters: '[ "cli" ]'
+          delayRequest: 50
+          reporters: cli
       
 
 
