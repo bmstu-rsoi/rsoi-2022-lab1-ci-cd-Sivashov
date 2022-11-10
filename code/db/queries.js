@@ -76,9 +76,10 @@ function loadData(request, callback) {
 const createPerson = async (request, response) => {
   loadData(request, function (body) {
     const { name, age, address, work } = JSON.parse(body);
+    console.log(name, age, address, work)
     const querydb = `INSERT INTO persons(id, name, age, address, work) VALUES (DEFAULT, '${name}', ${age}, '${address}', '${work}') RETURNING id;`;
     client.query(querydb, (err, res) => {
-      if (err) res.status(400).json(null);
+      if (err) response.status(400).json(null);
       else
         response.status(201).header("Location", `/api/v1/persons/${res.rows[0].id}`).json("");
     });
