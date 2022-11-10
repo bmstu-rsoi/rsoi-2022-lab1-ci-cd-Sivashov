@@ -1,4 +1,4 @@
-const { Client } = require('pg');
+const { Pool } = require('pg');
 connectionstr = process.env.DATABASE_URL
 /*const client = new Client({
   user: 'program',
@@ -21,7 +21,7 @@ const conString =
   process.env.DATABASE_URL ||
   "postgres://mkhyaqnvpndrpe:2a3b24a46ec91a053cc6570f681fa4db8c07ee4763afadf0c7ee278e92f36a2b@ec2-52-211-232-23.eu-west-1.compute.amazonaws.com:5432/d1mdo3ep17armp";
 
-const client = new Client({
+const client = new Pool({
   connectionString: conString,
   ssl: {
     rejectUnauthorized: false,
