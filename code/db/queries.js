@@ -73,14 +73,13 @@ function loadData(request, callback) {
 }
 
 const createPerson = async (request, response) => {
-  loadData(req, function (body) {
+  loadData(request, function (body) {
     const { name, age, address, work } = JSON.parse(body);
     const querydb = `INSERT INTO persons(id, name, age, address, work) VALUES (DEFAULT, '${name}', ${age}, '${address}', '${work}') RETURNING id;`;
     client.query(querydb, (err, res) => {
       if (err) res.status(400).json(null);
       else
-        res
-          .status(201).header("Location", `/api/v1/persons/${res.rows[0].id}`).json("");
+        response.status(201).header("Location", `/api/v1/persons/${res.rows[0].id}`).json("");
     });
   });
     //client.end();
