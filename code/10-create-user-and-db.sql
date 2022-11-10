@@ -1,5 +1,5 @@
 --CREATE ROLE program WITH PASSWORD 'test';
-GRANT ALL PRIVILEGES ON DATABASE persons TO program;
+GRANT ALL PRIVILEGES ON DATABASE Persons TO program;
 ALTER ROLE program WITH LOGIN;
 
 create table if not exists Persons(
