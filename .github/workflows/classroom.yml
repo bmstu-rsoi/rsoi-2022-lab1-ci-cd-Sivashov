@@ -3,12 +3,11 @@ on:
   push:
     branches:
       - master
-<<<<<<< HEAD
+      - develop
   pull_request:
     branches:
       - master
-=======
->>>>>>> 264000cb0fccb92e5376d940935657cbdebfb630
+
 jobs:
   build:
     name: Autograding
@@ -18,8 +17,18 @@ jobs:
         with:
           fetch-depth: 0
 
-<<<<<<< HEAD
       # TODO build, test and deploy project
+      - name: Deploy
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "rsoilabapp"
+          heroku_email: "ya.siv11@yandex.ru"
+          usedocker: true
+      
+      - name: Timeout
+        run: sleep 30s
+        shell: bash
 
       - name: Run API Tests
         uses: matt-ball/newman-action@master
@@ -28,9 +37,17 @@ jobs:
           environment: postman/[inst][heroku] Lab1.postman_environment.json
           delayRequest: 100
           reporters: '[ "cli" ]'
+      
+      - name: Run Tests
+        id: run-newman
+        uses: anthonyvscode/newman-action@v1
+        with:
+          collection: postman/[inst] Lab1.postman_collection.json
+          environment: postman/[inst][heroku] Lab1.postman_environment.json
+          delayRequest: 50
+          reporters: cli
 
-=======
->>>>>>> 264000cb0fccb92e5376d940935657cbdebfb630
+
       - name: Autograding
         uses: education/autograding@v1
         continue-on-error: true
