@@ -47,15 +47,15 @@ app.get('/', function(req, res) {
   res.send('This is not implemented now');
 });
 
-app.get('/persons', db.getPersons)
+app.get('/api/v1/persons', db.getPersons)
 
-app.get('/persons/:personId', db.getPersonById)
+app.get('/api/v1/persons/:personId', db.getPersonById)
 
-app.post('/persons', db.createPerson)
+app.post('/api/v1/persons', db.createPerson)
 
-app.patch('/persons/:personId', db.updatePerson)
+app.patch('/api/v1/persons/:personId', db.updatePerson)
 
-app.delete('/persons/:personId', db.deletePerson)
+app.delete('/api/v1/persons/:personId', db.deletePerson)
 
 app.listen(port, function(){
   console.log(`Server listening on port ${port}`);

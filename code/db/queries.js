@@ -38,21 +38,21 @@ const getPersonById = async (request, response) => {
         throw error
       }
       if (results.rowCount === 0){
-        response.status(404).send('Not found')
+        response.status(404).json(null)
       }
       else{
-        response.status(200).json(results.rows)
+        response.status(200).json(results.rows[0])
       }
     })
     //client.end();
 }
 
 const createPerson = async (request, response) => {
-    const { name, age, gender } = request.body
+    const { name, address, work, age } = request.body
     //response.status(200).send('create person')
  
-    const results = await client.query('INSERT INTO Persons (name, age, gender) VALUES ($1, $2, $3) RETURNING *',
-                     [name, age, gender], (error, results) => {
+    const results = await client.query('INSERT INTO Persons (name, address, work, age) VALUES ($1, $2, $3, $4) RETURNING *',
+                     [name, address, work, age], (error, results) => {
       if (error) {
         throw error
       }
@@ -66,17 +66,20 @@ const createPerson = async (request, response) => {
 const updatePerson = async (request, response) => {
     const id = parseInt(request.params.personId)
     console.log(id)
-    const { name, age, gender } = request.body
+    const { name, address } = request.body
     //response.status(200).send('upd person')
 
     const results = await client.query(
-      'UPDATE Persons SET name = $1, age = $2, gender = $3 WHERE id = $4',
-      [name, age, gender, id],
+      'UPDATE Persons SET name = $1, address = $2 WHERE id = $3 RETURNING *',
+      [name, address, id],
       (error, results) => {
         if (error) {
-          throw error
+          res.status(400).json(null)
         }
-        response.status(200).send(`Person modified with ID: ${id}`)
+        else{
+          response.status(200).json(results.rows[0])
+        }
+        
       }
     )
     //client.end();
@@ -91,7 +94,7 @@ const deletePerson = async (request, response) => {
       if (error) {
         throw error
       }
-      response.status(200).send(`Person deleted with ID: ${id}`)
+      response.status(204).json(null)
     })
     //client.end();
 }
