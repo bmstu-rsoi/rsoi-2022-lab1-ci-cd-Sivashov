@@ -7,6 +7,7 @@ on:
   pull_request:
     branches:
       - master
+      - develop
 
 jobs:
   build:
@@ -19,11 +20,13 @@ jobs:
 
       # TODO build, test and deploy project
       - name: Deploy
-        uses: akhileshns/heroku-deploy@v3.12.12
+        #uses: akhileshns/heroku-deploy@v3.12.12
+        uses: gonuit/heroku-docker-deploy@v1.3.3
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "sivashov-person-service"
           heroku_email: "ya.siv11@yandex.ru"
+          dockerfile_directory: code/
           usedocker: true
       
       - name: Timeout
