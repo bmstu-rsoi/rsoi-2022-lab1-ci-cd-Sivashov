@@ -39,9 +39,10 @@ client.connect(function (err){
 
 const getPersons = async (request, response) => {
     //response.status(200).send('get persons1')
-    const res = await client.query('SELECT * FROM Persons ORDER BY id ASC', (error, results) => {
-      response.status(200).json(results.rows)
-    })
+    const querydb = "SELECT * FROM persons;";
+    client.query(querydb, (err, result) => {
+      response.status(200).json(result.rows);
+    });
     //client.end();
 }
 
@@ -52,7 +53,7 @@ const getPersonById = async (request, response) => {
     //}
     //response.status(200).send('get person by id')
 
-    const results = await client.query('SELECT * FROM Persons WHERE id = $1', [id], (error, results) => {
+    const re = await client.query('SELECT * FROM Persons WHERE id = $1', [id], (error, results) => {
       if (results.rowCount === 0){
         response.status(404).json(null)
       }
