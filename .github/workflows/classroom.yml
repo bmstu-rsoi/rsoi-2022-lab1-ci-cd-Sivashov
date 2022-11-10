@@ -32,14 +32,14 @@ jobs:
         run: sleep 30s
         shell: bash
 
-      - name: Run API Tests
-        id: run-newman
-        uses: anthonyvscode/newman-action@v1
-        with:
-          collection: postman/[inst] Lab1.postman_collection.json
-          environment: postman/[inst][heroku] Lab1.postman_environment.json
-          delayRequest: 50
-          reporters: cli
+      #- name: Run API Tests
+      #  id: run-newman
+      #  uses: anthonyvscode/newman-action@v1
+      #  with:
+      #    collection: postman/[inst] Lab1.postman_collection.json
+      #    environment: postman/[inst][heroku] Lab1.postman_environment.json
+      #    delayRequest: 50
+      #    reporters: cli
       
 
 
