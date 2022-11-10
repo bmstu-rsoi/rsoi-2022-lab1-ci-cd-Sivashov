@@ -5,13 +5,13 @@ FROM node
 WORKDIR /api/v1
 
 # устанавливаем зависимости
-COPY package*.json ./
+ADD package*.json ./
 
 RUN npm install
 # если собираем код в прод, то 
 # RUN npm ci --only-production
 
-COPY . .
+ADD . .
 
 ENV PORT 8080
 
