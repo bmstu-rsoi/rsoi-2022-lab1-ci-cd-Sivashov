@@ -82,7 +82,7 @@ const updatePerson = async (request, response) => {
         
       }
     )
-    //client.end();
+    //client.end()
 }
 
 const deletePerson = async (request, response) => {
