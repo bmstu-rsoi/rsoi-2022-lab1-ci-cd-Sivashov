@@ -63,19 +63,26 @@ const getPersonById = async (request, response) => {
     //client.end();
 }
 
+function loadData(request, callback) {
+  let body = [];
+  request
+    .on("data", (chunk) => {body.push(chunk);})
+    .on("end", () => {body = Buffer.concat(body).toString();
+      callback(body);
+    });
+}
+
 const createPerson = async (request, response) => {
-    const { name, address, work, age } = request.body
-    //response.status(200).send('create person')
- 
-    const query = `INSERT INTO persons(id, name, age, address, work) VALUES (DEFAULT, '${name}', ${age}, '${address}', '${work}') RETURNING id;`;
-    client.query(query, (err, res) => {
+  loadData(req, function (body) {
+    const { name, age, address, work } = JSON.parse(body);
+    const querydb = `INSERT INTO persons(id, name, age, address, work) VALUES (DEFAULT, '${name}', ${age}, '${address}', '${work}') RETURNING id;`;
+    client.query(querydb, (err, res) => {
       if (err) res.status(400).json(null);
       else
         res
-          .status(201)
-          .header("Location", `/api/v1/persons/${res.rows[0].id}`)
-          .json("");
+          .status(201).header("Location", `/api/v1/persons/${res.rows[0].id}`).json("");
     });
+  });
     //client.end();
 }
 
